@@ -1,6 +1,6 @@
 {
   "name": "react-native-uhf-helper",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "license": "MIT",
   "description": "a react-native uhf helper only support Android",
   "author": "kiki <lin912305043@gmail.com>",

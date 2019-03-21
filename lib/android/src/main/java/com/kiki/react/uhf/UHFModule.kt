@@ -62,6 +62,11 @@ class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaM
         loop = false
     }
 
+    @ReactMethod
+    fun getCurrentState() {
+        return readerThread!!.isAlive
+    }
+
     private fun reader() {
         readerThread = Thread(Runnable {
             while (loop) {

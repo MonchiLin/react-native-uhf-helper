@@ -10,9 +10,10 @@ type UHFOptions = {
 const initWrapped = (options: UHFOptions = {}) => UHF.initUHF(options);
 
 export default {
+    initUHF: initWrapped,
     readerStart: UHF.readerStart as () => void,
     readerStop: UHF.readerStop as () => void,
-    initUHF: initWrapped,
+    getCurrentState: UHF.getCurrentState as () => boolean,
     addListener: (listener: (...args: any) => any) =>
         eventEmitter.addListener("reader", listener)
 };
