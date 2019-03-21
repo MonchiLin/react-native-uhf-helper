@@ -1,0 +1,5 @@
+rootProject.name = 'RNTest'
+include ':react-native-uhf-helper'
+project(':react-native-uhf-helper').projectDir = new File(rootProject.projectDir, '../lib/android')
+
+include ':app'
