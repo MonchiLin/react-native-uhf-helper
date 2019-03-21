@@ -23,20 +23,27 @@ class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaM
 
     var loop = false
 
+    val mUHFOption = UHFOption()
+
     init {
         this.reactContext = reactContext
     }
 
-    @ReactMethod
-    fun initUHF() {
-        val mService = UhfAdapter.getUhfManager(this.reactApplicationContext)
-        uhf_6c = mService.getISO1800_6C()
-        eventEmitter = this.reactContext!!.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
-        this.reader()
-    }
-
     override fun getName(): String {
         return ModuleName
+    }
+
+    @ReactMethod
+    fun initUHF(option: ReadableMap) {
+        val mService = UhfAdapter.getUhfManager(this.reactContext)
+        uhf_6c = mService.getISO1800_6C()
+        eventEmitter = this.reactContext!!.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+
+        if (option.hasKey("interval")) {
+            mUHFOption.interval = option.getInt("interval")
+        }
+
+        this.reader()
     }
 
     @ReactMethod
@@ -53,15 +60,14 @@ class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaM
             readerThread!!.interrupt()
         }
         loop = false
-
     }
 
-    private fun reader(interval: Long = 1000) {
+    private fun reader() {
         readerThread = Thread(Runnable {
             while (loop) {
                 try {
                     uhf_6c!!.inventory(callback)
-                    Thread.sleep(interval);
+                    Thread.sleep(mUHFOption.interval.toLong());
                 } catch (e: InterruptedException) {
                     Log.d(TAG, "enter InterruptedException")
                 }

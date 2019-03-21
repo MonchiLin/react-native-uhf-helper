@@ -1,6 +1,6 @@
 {
   "name": "react-native-uhf-helper",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "license": "MIT",
   "description": "a react-native uhf helper only support Android",
   "author": "kiki <lin912305043@gmail.com>",
@@ -21,7 +21,7 @@
     "type": "git",
     "url": "https://github.com/muxi2015/react-native-uhf-helper"
   },
-  "main": "lib/js",
+  "main": "lib/js/index",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "run-android": "node node_modules/react-native/local-cli/cli.js run-android",
