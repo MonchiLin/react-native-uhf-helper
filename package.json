@@ -1,6 +1,6 @@
 {
   "name": "react-native-uhf-helper",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "license": "MIT",
   "description": "a react-native uhf helper only support Android",
   "author": "kiki <lin912305043@gmail.com>",
@@ -14,6 +14,7 @@
   "files": [
     "lib/js",
     "lib/android/src",
+    "lib/android/libs",
     "lib/android/build.gradle"
   ],
   "repository": {
