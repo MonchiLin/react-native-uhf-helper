@@ -63,7 +63,7 @@ class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaM
     }
 
     @ReactMethod
-    fun getCurrentState() {
+    fun getCurrentState(): Boolean {
         return readerThread!!.isAlive
     }
 
