@@ -22,6 +22,7 @@ class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaM
     var readerThread: Thread? = null
 
     var loop = false
+    var first = true
 
     val mUHFOption = UHFOption()
 
@@ -43,35 +44,55 @@ class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaM
             mUHFOption.interval = option.getInt("interval")
         }
 
-        this.reader()
+        readerThread = this.reader()
     }
 
     @ReactMethod
     fun readerStart() {
-        if (!readerThread!!.isAlive) {
-            readerThread!!.start()
+        try {
+            if (first) {
+                readerThread!!.start()
+                first = false
+            } else if (!readerThread!!.isAlive && !loop) {
+                readerThread = this.reader()
+                readerThread!!.start()
+            }
+        } catch (e: IllegalThreadStateException) {
+            Log.d(TAG, "enter IllegalThreadStateException")
+        } finally {
+            loop = true
         }
-        loop = true
+
     }
 
     @ReactMethod
     fun readerStop() {
-        if (readerThread!!.isAlive) {
+        if (readerThread!!.isAlive && loop) {
             readerThread!!.interrupt()
         }
         loop = false
     }
 
     @ReactMethod
-    fun getCurrentState(): Boolean {
-        return readerThread!!.isAlive
+    fun readerDestroy() {
+        readerThread!!.interrupt()
     }
 
-    private fun reader() {
-        readerThread = Thread(Runnable {
+    @ReactMethod
+    fun getCurrentState(): Boolean {
+        return loop
+    }
+
+    private fun reader(): Thread {
+        return Thread(Runnable {
             while (loop) {
                 try {
                     uhf_6c!!.inventory(callback)
+
+                    if (!loop) {
+                        break
+                    }
+
                     Thread.sleep(mUHFOption.interval.toLong());
                 } catch (e: InterruptedException) {
                     Log.d(TAG, "enter InterruptedException")
