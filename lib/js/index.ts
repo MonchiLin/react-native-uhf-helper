@@ -7,13 +7,17 @@ type UHFOptions = {
     interval?: number,
 }
 
-const initWrapped = (options: UHFOptions = {}) => UHF.initUHF(options);
+type InitUHF = (options: UHFOptions) => void
+type ReaderStart = () => void
+type ReaderStop = () => void
+type GetCurrentState = () => boolean
+type AddListener = (cb: (args: any[]) => void) => void
 
-export default {
-    initUHF: initWrapped,
-    readerStart: UHF.readerStart as () => void,
-    readerStop: UHF.readerStop as () => void,
-    getCurrentState: UHF.getCurrentState as () => boolean,
-    addListener: (listener: (...args: any) => any) =>
-        eventEmitter.addListener("reader", listener)
-};
+export const initUHF: InitUHF = (options = {}) => UHF.initUHF(options);
+export const readerStart: ReaderStart = UHF.readerStart;
+export const readerStop: ReaderStop = UHF.readerStop;
+export const getCurrentState: GetCurrentState = UHF.getCurrentState;
+export const addListener: AddListener = (listener) =>
+    eventEmitter.addListener("reader", listener);
+
+
