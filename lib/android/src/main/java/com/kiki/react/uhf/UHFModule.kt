@@ -1,5 +1,6 @@
 package com.kiki.react.uhf
 
+import android.content.pm.PackageManager
 import android.os.RemoteException
 import android.util.Log
 import com.facebook.react.bridge.*
@@ -32,6 +33,12 @@ class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaM
 
     override fun getName(): String {
         return ModuleName
+    }
+
+    @ReactMethod
+    fun supportNFC(promise: Promise) {
+        val pm = this.reactContext!!.getPackageManager()
+        promise.resolve(pm.hasSystemFeature(PackageManager.FEATURE_NFC))
     }
 
     @ReactMethod
