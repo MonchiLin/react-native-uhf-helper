@@ -14,7 +14,7 @@ type GetCurrentState = () => boolean
 type AddListener = (cb: (args: any[]) => void) => void
 
 export const initUHF: InitUHF = (options = {}) => UHFModule.initUHF(options);
-export const supportUHF: () => Promise<boolean> = UHFModule.supportNFC;
+export const supportUHF: () => Promise<boolean> = UHFModule.supportUHF;
 export const readerStart: ReaderStart = UHFModule.readerStart;
 export const readerStop: ReaderStop = UHFModule.readerStop;
 export const getCurrentState: GetCurrentState = UHFModule.getCurrentState;
