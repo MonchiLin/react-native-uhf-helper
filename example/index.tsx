@@ -1,5 +1,5 @@
 import React from "react";
-import UHF, {supportNFC} from "react-native-uhf-helper";
+import UHF, {supportUHF} from "../lib/js";
 import {View, Button, Text, FlatList} from "react-native";
 
 // 链接 android log-cat, 标签选择 kiki 即可
@@ -10,7 +10,7 @@ export default class RNUHFTest extends React.Component {
     };
 
     async componentWillMount(): Promise<void> {
-        const support = await supportNFC();
+        const support = await supportUHF();
 
         if (!support) {
             this.setState({support: support});
@@ -18,6 +18,7 @@ export default class RNUHFTest extends React.Component {
         }
 
         UHF.initUHF();
+
         UHF.addListener((res: number[]) => {
             if (res.length === 0) {
                 return;

@@ -10,7 +10,7 @@ import com.olc.uhf.tech.ISO1800_6C
 import com.olc.uhf.tech.IUhfCallback
 
 val TAG = "kiki"
-val ModuleName = "UHF"
+val ModuleName = "UHFModule"
 
 class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
@@ -36,15 +36,18 @@ class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaM
     }
 
     @ReactMethod
-    fun supportNFC(promise: Promise) {
+    fun supportUHF(promise: Promise) {
         val pm = this.reactContext!!.getPackageManager()
-        promise.resolve(pm.hasSystemFeature(PackageManager.FEATURE_NFC))
+        val nfcSupport = pm.hasSystemFeature(PackageManager.FEATURE_NFC)
+        val mService = UhfAdapter.getUhfManager(this.reactContext)
+
+        promise.resolve(nfcSupport && mService != null)
     }
 
     @ReactMethod
     fun initUHF(option: ReadableMap) {
         val mService = UhfAdapter.getUhfManager(this.reactContext)
-        uhf_6c = mService.getISO1800_6C()
+        uhf_6c = mService.isO1800_6C
         eventEmitter = this.reactContext!!.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
 
         if (option.hasKey("interval")) {
