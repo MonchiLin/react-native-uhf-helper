@@ -5,7 +5,7 @@ import {View, Button, Text, FlatList} from "react-native";
 // 链接 android log-cat, 标签选择 kiki 即可
 export default class RNUHFTest extends React.Component {
     state = {
-        tags: [],
+        tags: [] as number[],
         support: true
     };
 
@@ -17,13 +17,13 @@ export default class RNUHFTest extends React.Component {
             return;
         }
 
-        UHF.initUHF();
+        UHF.initUHF({interval: 150});
 
         UHF.addListener((res: number[]) => {
             if (res.length === 0) {
                 return;
             }
-            this.setState({tags: [...this.state.tags, res[0]]});
+            this.setState({tags: this.state.tags.concat(res[0])});
         });
     }
 

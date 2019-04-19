@@ -20,8 +20,6 @@ class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaM
 
     var reactContext: ReactContext? = null
 
-    var readerThread: Thread? = null
-
     var loop = false
     var first = true
 
@@ -54,38 +52,18 @@ class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaM
             mUHFOption.interval = option.getInt("interval")
         }
 
-        readerThread = this.reader()
     }
 
     @ReactMethod
     fun readerStart() {
-        try {
-            if (first) {
-                readerThread!!.start()
-                first = false
-            } else if (!readerThread!!.isAlive && !loop) {
-                readerThread = this.reader()
-                readerThread!!.start()
-            }
-        } catch (e: IllegalThreadStateException) {
-            Log.d(TAG, "enter IllegalThreadStateException")
-        } finally {
-            loop = true
-        }
-
+        loop = true
+        val reader = this.reader()
+        reader.start()
     }
 
     @ReactMethod
     fun readerStop() {
-        if (readerThread!!.isAlive && loop) {
-            readerThread!!.interrupt()
-        }
         loop = false
-    }
-
-    @ReactMethod
-    fun readerDestroy() {
-        readerThread!!.interrupt()
     }
 
     @ReactMethod
@@ -94,21 +72,25 @@ class RNUHFModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaM
     }
 
     private fun reader(): Thread {
-        return Thread(Runnable {
+        val thread = Thread(Runnable {
             while (loop) {
+                uhf_6c!!.inventory(callback)
+
+                if (!loop) {
+                    break
+                }
+
                 try {
-                    uhf_6c!!.inventory(callback)
-
-                    if (!loop) {
-                        break
-                    }
-
+                    Log.d(TAG, mUHFOption.interval.toLong().toString())
                     Thread.sleep(mUHFOption.interval.toLong());
                 } catch (e: InterruptedException) {
                     Log.d(TAG, "enter InterruptedException")
                 }
+
             }
         })
+
+        return thread
     }
 
     private val callback: IUhfCallback = object : IUhfCallback.Stub() {
