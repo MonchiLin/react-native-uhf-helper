@@ -1,6 +1,6 @@
 {
   "name": "react-native-uhf-helper",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "license": "MIT",
   "description": "a react-native uhf helper only support Android",
   "author": "kiki <lin912305043@gmail.com>",
@@ -31,18 +31,18 @@
     "run-ios": "node node_modules/react-native/local-cli/cli.js run-ios"
   },
   "devDependencies": {
-    "react": "16.8.3",
-    "react-native": "0.58.5",
-    "@babel/core": "^7.4.0",
-    "@babel/runtime": "^7.4.0",
-    "@types/react": "^16.8.8",
-    "@types/react-native": "^0.57.41",
-    "babel-jest": "^24.5.0",
-    "jest": "^24.5.0",
+    "react": "16.8.6",
+    "react-native": "0.59.5",
+    "@babel/core": "^7.4.4",
+    "@babel/runtime": "^7.4.4",
+    "@types/react": "^16.8.15",
+    "@types/react-native": "^0.57.51",
+    "babel-jest": "^24.7.1",
+    "jest": "^24.7.1",
     "metro-react-native-babel-preset": "^0.53.1",
     "react-native-typescript-transformer": "^1.2.12",
-    "react-test-renderer": "16.8.3",
-    "typescript": "^3.3.4000"
+    "react-test-renderer": "16.8.6",
+    "typescript": "^3.4.5"
   },
   "jest": {
     "preset": "react-native"

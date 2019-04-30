@@ -72,6 +72,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':react-native-uhf-helper')
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    // noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"
 }
 
